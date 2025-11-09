@@ -11,7 +11,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 # =========================
 SHEET_KEY = st.secrets["SHEET_KEY"]  # dán trong Secrets
 LOGIN_WS_INDEX = 0                   # worksheet đăng nhập: sheet đầu tiên (dshs)
-COL_USERNAME = "usernam"
+COL_USERNAME = "username"
 COL_PASSWORD = "password"
 COL_NAMHOC   = "namhoc"
 COL_LOP      = "lop"
@@ -144,7 +144,7 @@ def try_change_password_and_email(
     idx_ns   = header_index(headers, COL_NGAYSINH)
 
     if None in (idx_user, idx_pass, idx_nh, idx_lop, idx_ns):
-        st.error("Thiếu một trong các cột bắt buộc: usernam, password, namhoc, lop, ngaysinh.")
+        st.error("Thiếu một trong các cột bắt buộc: username, password, namhoc, lop, ngaysinh.")
         return False
 
     row = find_user_row(username)
@@ -262,8 +262,8 @@ def append_violation(username: str, tuan: str, hoten: str, thu_label: str, noidu
 def login_view():
     st.subheader("🔐 Đăng nhập")
     with st.form("login_form"):
-        u = st.text_input("Tên đăng nhập (cột 'usernam')", key="login_user")
-        p = st.text_input("Mật khẩu (cột 'password')", type="password", key="login_pw")
+        u = st.text_input("Tên đăng nhập ", key="login_user")
+        p = st.text_input("Mật khẩu ", type="password", key="login_pw")
         ok = st.form_submit_button("Đăng nhập")
     if ok:
         if not u or not p:
@@ -274,7 +274,7 @@ def login_view():
             st.success("✅ Đăng nhập thành công.")
             st.rerun()
         else:
-            st.error("❌ Sai tên đăng nhập hoặc mật khẩu (không khớp 1 dòng).")
+            st.error("❌ Sai tên đăng nhập hoặc mật khẩu.")
 
 def change_password_view():
     st.markdown("### 🔄 Đổi mật khẩu & cập nhật email")
@@ -351,7 +351,7 @@ def main():
         st.session_state.logged_in = False
         st.session_state.username = ""
 
-    st.title("🔐 HỆ THỐNG ĐĂNG NHẬP – GOOGLE SHEETS")
+    st.title("🔐 HỆ THỐNG ĐĂNG NHẬP ")
 
     if not st.session_state.logged_in:
         login_view()
